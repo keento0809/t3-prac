@@ -1,4 +1,4 @@
-import { type ComponentPropsWithRef, type FC } from "react";
+import { type ComponentPropsWithRef } from "react";
 
 type ButtonProps = {
   small?: boolean;

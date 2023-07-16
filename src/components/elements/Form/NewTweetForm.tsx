@@ -2,15 +2,15 @@ import { Button } from "../Button";
 import { ProfileImage } from "../Image/ProfileImage";
 import { useNewTweetForm } from "./useNewTweetForm";
 import { TextArea } from "./Textarea";
+import { Loader } from "../Loader";
 
 export const NewTweetForm = () => {
   const { session } = useNewTweetForm();
 
   if (session.status !== "authenticated")
     return (
-      // TODO: Replace this div to Loader component
       <div className="flex min-h-[8rem] items-center justify-center">
-        Loading...
+        <Loader />
       </div>
     );
 
