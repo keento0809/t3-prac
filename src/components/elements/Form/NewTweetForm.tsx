@@ -5,7 +5,7 @@ import { TextArea } from "./Textarea";
 import { Loader } from "../Loader";
 
 export const NewTweetForm = () => {
-  const { session } = useNewTweetForm();
+  const { handleSetInputValue, session, textAreaRef } = useNewTweetForm();
 
   if (session.status !== "authenticated")
     return (
@@ -13,15 +13,6 @@ export const NewTweetForm = () => {
         <Loader />
       </div>
     );
-
-  return <Form />;
-};
-
-const Form = () => {
-  const { handleSetInputValue, inputRef, session, textAreaRef } =
-    useNewTweetForm();
-
-  if (session.status !== "authenticated") return null;
 
   const handleTestSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +27,7 @@ const Form = () => {
       <div className="flex gap-4">
         <ProfileImage src={session.data.user.image} />
         <TextArea
-          ref={inputRef}
+          ref={textAreaRef}
           onChangeFunc={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             handleSetInputValue(e.target.value)
           }

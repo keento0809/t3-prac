@@ -1,4 +1,4 @@
-import { type ComponentPropsWithRef } from "react";
+import { type ReactNode, type ComponentPropsWithRef } from "react";
 
 type ButtonProps = {
   small?: boolean;
@@ -6,7 +6,9 @@ type ButtonProps = {
   className?: string;
 };
 
-type ButtonHelperProps = ComponentPropsWithRef<"button">;
+type ButtonHelperProps = ComponentPropsWithRef<"button"> & {
+  children: ReactNode;
+};
 
 export const Button: React.FC<ButtonProps & ButtonHelperProps> = ({
   small = false,
