@@ -1,7 +1,7 @@
 import { Button } from "../Button";
 import { ProfileImage } from "../Image/ProfileImage";
 import { useNewTweetForm } from "./useNewTweetForm";
-import { TextArea } from "./Textarea";
+import { TextArea } from "./TextArea";
 import { Loader } from "../Loader";
 
 export const NewTweetForm = () => {
