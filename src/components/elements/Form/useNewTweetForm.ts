@@ -1,7 +1,22 @@
-import { useSession } from "next-auth/react";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useSession, type SessionContextValue } from "next-auth/react";
+import {
+  useLayoutEffect,
+  useRef,
+  useState,
+  type MutableRefObject,
+  type FormEvent,
+} from "react";
+import { api } from "y/utils/api";
 
-const useNewTweetForm = () => {
+type NewTweetFormState = {
+  handleSetInputValue: (value: string) => void;
+  handleSubmit: (e: FormEvent) => void;
+  session: SessionContextValue;
+  textAreaRef: MutableRefObject<HTMLTextAreaElement | null>;
+  updateTextAreaSize: (textArea?: HTMLTextAreaElement | null) => void;
+};
+
+const useNewTweetForm = (): NewTweetFormState => {
   const session = useSession();
   const [inputValue, setInputValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -13,8 +28,24 @@ const useNewTweetForm = () => {
   //   textAreaRef.current = textArea;
   // }, []);
 
+  const createTweet = api.tweet.create.useMutation({
+    onSuccess: (newTweet) => {
+      console.log(newTweet);
+      if (textAreaRef.current !== null) textAreaRef.current.value = "";
+    },
+    onError: (error) => {
+      console.log(error instanceof Error && error.message);
+    },
+  });
+
   function handleSetInputValue(value: string) {
     setInputValue(value);
+  }
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+
+    createTweet.mutate({ content: inputValue });
   }
 
   function updateTextAreaSize(textArea?: HTMLTextAreaElement | null) {
@@ -29,6 +60,7 @@ const useNewTweetForm = () => {
 
   return {
     handleSetInputValue,
+    handleSubmit,
     session,
     textAreaRef,
     updateTextAreaSize,
